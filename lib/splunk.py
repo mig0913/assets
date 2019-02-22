@@ -9,14 +9,13 @@ import os.path as path
 #Search Splunk Creds
 localPath =  path.dirname(__file__)
 confPath  =  path.join(localPath,'../etc/splunk.conf')
-print confPath
+
+#Log in informatin from ../etc/splunk.conf
+
 username = getData(confPath,'splunk','USERNAME')
 password = getData(confPath,'splunk','PASSWORD')
 host = getData(confPath,'splunk','HOSTNAME')
 
-print username
-print password
-print host
 class Splunk():
     def __init__(self, host=host, port=8089, username=username, password=password, scheme="https"):
         
@@ -35,24 +34,17 @@ class Splunk():
         global job
 
         if blocking:
-            #kwargs_blockingsearch = {"exec_mode": "blocking", "count": 0}
             kwargs_blockingsearch = {"count": 0}
 
-            #job = self.jobs.create(search, **kwargs_blockingsearch)
             job = self.jobs.oneshot(search, **kwargs_blockingsearch)
         else:
             job = self.jobs.create(search)
 
-        #self.previousJobs.append(job['sid'])            
-
-        #searchResults = results.ResultsReader(job.results())
         searchResults = results.ResultsReader(job)
-        #print [x for x in searchResults]        
         if resultFunc:
             for result in searchResults:
                 resultFunc(result)
         else:
-            #return list(searchResults)
             return searchResults
 
     def getLatestSID(self):
@@ -66,7 +58,7 @@ class Splunkit():
         self.connected = False
 
         try:
-            self.service = client.connect(host=host, port=port, username=username, password=password, scheme=scheme,app="costco_assets_ir" ,autologin=True)
+            self.service = client.connect(host=host, port=port, username=username, password=password, scheme=scheme,app="asset_app" ,autologin=True)
             self.connected = True
         except(socket.error):
             log.error("Error: Unable to connect to Splunk API.")
@@ -79,5 +71,4 @@ class Splunkit():
 
     def getKVstore(self,kvstore):
         collection = self.service.kvstore[kvstore]
-        #return json.dumps(collection.data.query(), indent=1)
         return collection.data.query()

@@ -2,18 +2,10 @@ from lib.splunk import Splunkit
 from lib.asset import AssetQuery,AssetHealthCheck,AssetStore
 
 groups = [
-'Call Center',
 'Citrix', 
-'Costco Travel',  
 'ECOM',   
-'Facilities',     
 'Gasoline',       
 'Networking',     
-'None',
-'Optical',
-'Pharmacy',
-'Regionals',
-'Warehouse']
 
 
 def execute(configAttr):

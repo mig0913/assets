@@ -66,6 +66,7 @@ class AssetHealthCheck():
       
       def getHealthIPs(assetDict):
           return list(set(record['ip'] for record in assetDict[agent] if 'ip' in record))
+
       @classmethod
       def healthCheck(cls,agent,org,assetDict):
            agentIPs  = list(set(record['ip'] for record in assetDict[agent] if 'ip' in record))
@@ -83,10 +84,6 @@ class AssetHealthCheck():
                        other_count +=1
                else:
                    unhealthyTotal +=1
-
-              # if assets['ip'] in agentIPs:
-              #    if org in assets['org']:
-              #        healthCount  +=1
            try:
                 percentage  = 0
                 return { 'health_count' : healthCount , 'org' : org  , 'org_count' : orgCount, 'percent' : percentage, 'agent' : agent.split('_')[0], 'server_count' : serverCount,'desktop_count': desktopCount,'other_count' : other_count}

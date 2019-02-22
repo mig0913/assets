@@ -114,7 +114,7 @@ dmypy.json
 .pyre/
 
 #Configure files
-*.conf
+#*.conf
 
 #swap filesa
 *.swp
